@@ -1,5 +1,11 @@
 # Conception UML
 
+## Diagramme de cas d'utilisation
+
+Trois acteurs, dix cas d'utilisation, colorés selon le micro-service qui les réalise.
+
+![Diagramme de cas d'utilisation](cas_utilisation.svg)
+
 ## Diagramme de classes
 
 Les traits pleins relient des classes d'un même service. Les traits pointillés
