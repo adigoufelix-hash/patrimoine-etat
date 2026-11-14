@@ -1,0 +1,70 @@
+x-laravel: &laravel
+  build: ./docker/php
+  working_dir: /var/www/html
+  command: php artisan serve --host=0.0.0.0 --port=8000
+  depends_on:
+    - db
+
+    
+x-db-env: &db-env
+  DB_CONNECTION: pgsql
+  DB_HOST: db
+  DB_PORT: 5432
+  DB_USERNAME: patrimoine
+  DB_PASSWORD: secret
+
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: patrimoine
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: biens
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  service-biens:
+    <<: *laravel
+    volumes:
+      - ./service-biens:/var/www/html
+    environment:
+      <<: *db-env
+      DB_DATABASE: biens
+    ports:
+      - "8001:8000"
+
+  service-auth:
+    <<: *laravel
+    volumes:
+      - ./service-auth:/var/www/html
+    environment:
+      <<: *db-env
+      DB_DATABASE: auth
+    ports:
+      - "8002:8000"
+
+  service-affectations:
+    <<: *laravel
+    volumes:
+      - ./service-affectations:/var/www/html
+    environment:
+      <<: *db-env
+      DB_DATABASE: affectations
+    ports:
+      - "8003:8000"
+
+  gateway:
+    <<: *laravel
+    volumes:
+      - ./gateway:/var/www/html
+    environment:
+      SERVICE_BIENS_URL: http://service-biens:8000
+      SERVICE_AUTH_URL: http://service-auth:8000
+      SERVICE_AFFECTATIONS_URL: http://service-affectations:8000
+    ports:
+      - "8000:8000"
+
+volumes:
+  pgdata:
