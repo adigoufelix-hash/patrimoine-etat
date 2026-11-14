@@ -42,6 +42,7 @@ RG3 historique conservé · RG4 un bien réformé n'est plus affectable.
 
 ## Normalisation de la base de données
 (à rédiger : voir ci-dessous)
-
 ## Conception
-Analyse du besoin, diagrammes UML (cas d'utilisation, classes, séquence) et maquettes Figma : voir le dossier `docs/`.
+- Analyse du besoin : `docs/Analyse_du_besoin_Gestion_Patrimoine.docx`
+- Diagrammes UML (cas d'utilisation, classes, séquence) : [docs/UML.md](docs/UML.md)
+- Maquettes Figma et prototype : [docs/MAQUETTES.md](docs/MAQUETTES.md)
