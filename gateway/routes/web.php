@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthWebController;
 use App\Http\Controllers\BienWebController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IncidentWebController;
+use App\Http\Controllers\UtilisateurWebController;
 use App\Http\Middleware\EnsureConnecte;
 use App\Http\Middleware\EnsureRole;
 use Illuminate\Support\Facades\Route;
@@ -39,7 +40,12 @@ Route::middleware(EnsureConnecte::class)->group(function () {
         Route::patch('/incidents/{id}/statut', [IncidentWebController::class, 'statut'])->whereNumber('id');
     });
 
-    // Administrateur seul
-    Route::view('/utilisateurs', 'pages.bientot', ['titre' => 'Utilisateurs'])
-        ->middleware(EnsureRole::class . ':admin');
+    // Administrateur seul (RG7, RG8)
+    Route::middleware(EnsureRole::class . ':admin')->group(function () {
+        Route::get('/utilisateurs', [UtilisateurWebController::class, 'index']);
+        Route::get('/utilisateurs/creer', [UtilisateurWebController::class, 'create']);
+        Route::post('/utilisateurs', [UtilisateurWebController::class, 'store']);
+        Route::get('/utilisateurs/{id}/modifier', [UtilisateurWebController::class, 'edit'])->whereNumber('id');
+        Route::patch('/utilisateurs/{id}', [UtilisateurWebController::class, 'update'])->whereNumber('id');
+    });
 });
