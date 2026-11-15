@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/connexion', [AuthWebController::class, 'form']);
 Route::post('/connexion', [AuthWebController::class, 'login']);
+Route::get('/inscription', [AuthWebController::class, 'formInscription']);
+Route::post('/inscription', [AuthWebController::class, 'inscription'])->middleware('throttle:5,1');
 
 Route::middleware(EnsureConnecte::class)->group(function () {
     Route::post('/deconnexion', [AuthWebController::class, 'logout']);

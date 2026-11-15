@@ -13,6 +13,34 @@ class AuthWebController extends Controller
         return rtrim(config('microservices.' . $service), '/') . '/api';
     }
 
+    private function services(): array
+    {
+        try {
+            $s = Http::acceptJson()->timeout(120)->get($this->url('affectations') . '/services');
+
+            return $s->successful() ? $s->json() : [];
+        } catch (ConnectionException $e) {
+            return [];
+        }
+    }
+
+    /** Mémorise l'utilisateur et son jeton en session (utilisé par la connexion et l'inscription). */
+    private function ouvrirSession(Request $request, array $reponse)
+    {
+        $utilisateur = $reponse['user'];
+        $utilisateur['service_nom'] = null;
+
+        // Le nom du service sert à appliquer RG6 (un responsable ne voit que son service)
+        if (! empty($utilisateur['service_id'])) {
+            $utilisateur['service_nom'] = collect($this->services())->firstWhere('id', $utilisateur['service_id'])['nom'] ?? null;
+        }
+
+        $request->session()->regenerate();
+        session(['jeton' => $reponse['token'], 'user' => $utilisateur]);
+
+        return redirect($utilisateur['role'] === 'responsable' ? '/biens' : '/');
+    }
+
     public function form()
     {
         return session('user') ? redirect('/') : view('connexion');
@@ -37,25 +65,43 @@ class AuthWebController extends Controller
             return back()->withInput($email)->withErrors(['email' => 'Le service d’authentification a répondu avec une erreur.']);
         }
 
-        $utilisateur = $r->json('user');
-        $utilisateur['service_nom'] = null;
+        return $this->ouvrirSession($request, $r->json());
+    }
 
-        // Le nom du service sert à appliquer RG6 (un responsable ne voit que son service)
-        if (! empty($utilisateur['service_id'])) {
-            try {
-                $s = Http::acceptJson()->timeout(120)->get($this->url('affectations') . '/services');
-                if ($s->successful()) {
-                    $utilisateur['service_nom'] = collect($s->json())->firstWhere('id', $utilisateur['service_id'])['nom'] ?? null;
-                }
-            } catch (ConnectionException $e) {
-                // on poursuit : le responsable verra simplement une liste vide
-            }
+    public function formInscription()
+    {
+        return session('user') ? redirect('/') : view('inscription', ['services' => $this->services()]);
+    }
+
+    public function inscription(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'password' => 'required|string|min:8|confirmed',
+            'service_id' => 'nullable|integer',
+        ]);
+        $saisie = $request->only('name', 'email', 'service_id');
+
+        try {
+            $r = Http::acceptJson()->timeout(120)->post($this->url('auth') . '/register', [
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'password' => $request->input('password'),
+                'service_id' => $request->input('service_id') ?: null,
+            ]);
+        } catch (ConnectionException $e) {
+            return back()->withInput($saisie)->withErrors(['email' => 'Le service d’authentification est indisponible.']);
         }
 
-        $request->session()->regenerate();
-        session(['jeton' => $r->json('token'), 'user' => $utilisateur]);
+        if ($r->status() === 422) {
+            return back()->withInput($saisie)->withErrors($r->json('errors') ?? ['email' => 'Données invalides.']);
+        }
+        if ($r->failed()) {
+            return back()->withInput($saisie)->withErrors(['email' => 'Le service d’authentification a répondu avec une erreur.']);
+        }
 
-        return redirect($utilisateur['role'] === 'responsable' ? '/biens' : '/');
+        return $this->ouvrirSession($request, $r->json());
     }
 
     public function logout(Request $request)

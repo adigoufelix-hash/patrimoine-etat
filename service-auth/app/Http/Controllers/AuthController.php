@@ -30,6 +30,36 @@ class AuthController extends Controller
         return User::where('api_token', hash('sha256', $jeton))->where('actif', true)->first();
     }
 
+    private function ouvrirSession(User $u, int $statut = 200)
+    {
+        $jeton = Str::random(60);
+        $u->forceFill(['api_token' => hash('sha256', $jeton)])->save();
+
+        return response()->json(['token' => $jeton, 'user' => $this->profil($u)], $statut);
+    }
+
+    public function register(Request $request)
+    {
+        $donnees = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email',
+            'password' => 'required|string|min:8|max:100',
+            'service_id' => 'nullable|integer|min:1',
+        ]);
+
+        // RG7 : le rôle est imposé par le serveur, jamais lu dans la requête
+        $utilisateur = User::create([
+            'name' => $donnees['name'],
+            'email' => $donnees['email'],
+            'password' => $donnees['password'],
+            'service_id' => $donnees['service_id'] ?? null,
+            'role' => 'responsable',
+            'actif' => true,
+        ]);
+
+        return $this->ouvrirSession($utilisateur, 201);
+    }
+
     public function login(Request $request)
     {
         $donnees = $request->validate([
@@ -43,10 +73,7 @@ class AuthController extends Controller
             return response()->json(['message' => 'Identifiants incorrects.'], 401);
         }
 
-        $jeton = Str::random(60);
-        $utilisateur->forceFill(['api_token' => hash('sha256', $jeton)])->save();
-
-        return response()->json(['token' => $jeton, 'user' => $this->profil($utilisateur)]);
+        return $this->ouvrirSession($utilisateur);
     }
 
     public function me(Request $request)

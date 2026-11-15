@@ -116,3 +116,6 @@ input, select, textarea { padding:10px 12px; border:1px solid var(--bord); borde
 .deconnexion { background:none; border:0; padding:0; color:#c7d8ea; font-size:12px; cursor:pointer; font-family:inherit; }
 .tableau td .lien + .lien { margin-left:10px; }
 .role-responsable .ecriture { display:none !important; }
+
+.centre { text-align:center; }
+.page-connexion { overflow-y:auto; }
