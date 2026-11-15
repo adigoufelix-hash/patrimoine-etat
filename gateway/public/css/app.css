@@ -148,3 +148,20 @@ input, select, textarea { padding:10px 12px; border:1px solid var(--bord); borde
   .infos { grid-template-columns:1fr; gap:4px; }
   .infos dd { margin-bottom:10px; }
 }
+
+/* Mobile : finitions */
+@media (max-width: 768px) {
+  .tableau-inc th, .tableau-inc td { display: table-cell !important; }
+  .tableau-inc td { min-width: 110px; }
+  .tableau-inc td:nth-child(3) { min-width: 180px; }
+
+  .entete > div:last-child, .actions { width: 100%; }
+  .actions .bouton { flex: 1; text-align: center; padding: 10px 12px; }
+  .bouton { padding: 10px 14px; }
+
+  .carte-connexion { padding: 24px; }
+  .formulaire { padding: 20px; }
+  .boutons .bouton { flex: 1; text-align: center; }
+  .stat .nombre { font-size: 26px; }
+  input, select, textarea { font-size: 16px; } /* évite le zoom automatique sur téléphone */
+}
