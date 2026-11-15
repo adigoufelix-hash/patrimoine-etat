@@ -61,7 +61,10 @@
                             <td>{{ $bien['categorie']['nom'] ?? '-' }}</td>
                             <td><span class="badge badge-{{ $couleur }}">{{ $libelle }}</span></td>
                             <td>{{ $bien['service'] ?? 'Non affecté' }}</td>
-                            <td><a class="lien" href="/biens/{{ $bien['id'] }}/modifier">Modifier</a></td>
+                            <td>
+                            <a class="lien" href="/biens/{{ $bien['id'] }}/modifier">Modifier</a> ·
+                            <a class="lien" href="/affectations/nouvelle?bien={{ $bien['id'] }}">Affecter</a>
+                            </td>
                         </tr>
                     @empty
                         <tr><td colspan="6" class="vide">Aucun bien ne correspond.</td></tr>
