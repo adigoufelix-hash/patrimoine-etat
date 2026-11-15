@@ -3,7 +3,11 @@
 @section('sous-titre', 'Recensement du patrimoine de l’État')
 
 @section('actions')
-    <a class="bouton ecriture" href="/biens/creer">+ Ajouter un bien</a>
+    <span class="actions">
+        <a class="bouton bouton-clair ecriture" href="/inventaire/export?{{ request()->getQueryString() }}">Exporter (Excel)</a>
+        <a class="bouton bouton-clair ecriture" href="/inventaire/imprimer?{{ request()->getQueryString() }}" target="_blank">Imprimer / PDF</a>
+        <a class="bouton ecriture" href="/biens/creer">+ Ajouter un bien</a>
+    </span>
 @endsection
 
 @section('contenu')
@@ -47,7 +51,7 @@
             <a class="lien" href="/biens">Réinitialiser</a>
         </form>
 
-        <div class="carte">
+        <div class="carte defile">
             <table class="tableau">
                 <thead>
                     <tr><th>Code</th><th>Désignation</th><th>Catégorie</th><th>État</th><th>Service</th><th>Actions</th></tr>
@@ -62,8 +66,9 @@
                             <td><span class="badge badge-{{ $couleur }}">{{ $libelle }}</span></td>
                             <td>{{ $bien['service'] ?? 'Non affecté' }}</td>
                             <td>
-                            <a class="lien ecriture" href="/biens/{{ $bien['id'] }}/modifier">Modifier</a>
-                            <a class="lien ecriture" href="/affectations/nouvelle?bien={{ $bien['id'] }}">Affecter</a>
+                                <a class="lien" href="/biens/{{ $bien['id'] }}">Voir</a>
+                                <a class="lien ecriture" href="/biens/{{ $bien['id'] }}/modifier">Modifier</a>
+                                <a class="lien ecriture" href="/affectations/nouvelle?bien={{ $bien['id'] }}">Affecter</a>
                             </td>
                         </tr>
                     @empty

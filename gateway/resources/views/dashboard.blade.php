@@ -1,6 +1,9 @@
 @extends('layouts.app')
 @section('titre', 'Tableau de bord')
 @section('sous-titre', 'Vue d’ensemble du patrimoine')
+@section('actions')
+    <a class="bouton bouton-clair" href="/inventaire/export">Exporter l’inventaire</a>
+@endsection
 
 @section('contenu')
     @if ($biensIndisponible)

@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthWebController;
 use App\Http\Controllers\BienWebController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IncidentWebController;
+use App\Http\Controllers\InventaireController;
 use App\Http\Controllers\UtilisateurWebController;
 use App\Http\Middleware\EnsureConnecte;
 use App\Http\Middleware\EnsureRole;
@@ -20,6 +21,7 @@ Route::middleware(EnsureConnecte::class)->group(function () {
 
     // Tout utilisateur connecté (le responsable ne voit que son service : RG6)
     Route::get('/biens', [BienWebController::class, 'index']);
+    Route::get('/biens/{id}', [InventaireController::class, 'show'])->whereNumber('id');
     Route::get('/affectations', [AffectationWebController::class, 'index']);
     Route::get('/incidents', [IncidentWebController::class, 'index']);
     Route::get('/incidents/nouveau', [IncidentWebController::class, 'create']);
@@ -33,6 +35,9 @@ Route::middleware(EnsureConnecte::class)->group(function () {
         Route::post('/biens', [BienWebController::class, 'store']);
         Route::get('/biens/{id}/modifier', [BienWebController::class, 'edit'])->whereNumber('id');
         Route::put('/biens/{id}', [BienWebController::class, 'update'])->whereNumber('id');
+
+        Route::get('/inventaire/export', [InventaireController::class, 'export']);
+        Route::get('/inventaire/imprimer', [InventaireController::class, 'imprimer']);
 
         Route::get('/affectations/nouvelle', [AffectationWebController::class, 'create']);
         Route::post('/affectations', [AffectationWebController::class, 'store']);
