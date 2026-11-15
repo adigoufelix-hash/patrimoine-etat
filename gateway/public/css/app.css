@@ -82,3 +82,26 @@ input, select, textarea { padding:10px 12px; border:1px solid var(--bord); borde
   .deux-colonnes { grid-template-columns:1fr; }
   .tableau-aff th, .tableau-aff td { display:table-cell !important; }
 }
+
+/* Tableau de bord */
+.stats { display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; margin-bottom:16px; }
+.stat { padding:20px; }
+.stat .etiquette { margin:0 0 6px; }
+.nombre { margin:0; font-size:32px; font-weight:700; }
+.nombre-bleu { color:var(--bleu); }
+.nombre-rouge { color:#b82e2e; }
+.nombre-jaune { color:#996105; }
+.panneaux { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.ligne-barre { display:flex; align-items:center; gap:12px; }
+.ligne-barre .nom { width:110px; flex-shrink:0; font-size:13px; }
+.piste { flex:1; height:14px; }
+.barre { display:block; height:14px; background:var(--bleu); border-radius:4px; min-width:4px; }
+.valeur-barre { font-size:13px; font-weight:500; width:28px; text-align:right; }
+.mouvement { display:flex; justify-content:space-between; gap:12px; padding-top:12px; border-top:1px solid var(--bord); font-size:13px; }
+.mouvement:first-of-type { border-top:0; padding-top:0; }
+.mouvement .date { color:var(--gris); flex-shrink:0; }
+
+@media (max-width: 768px) {
+  .stats { grid-template-columns:1fr 1fr; }
+  .panneaux { grid-template-columns:1fr; }
+}
