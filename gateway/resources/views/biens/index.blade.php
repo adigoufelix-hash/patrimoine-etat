@@ -3,7 +3,7 @@
 @section('sous-titre', 'Recensement du patrimoine de l’État')
 
 @section('actions')
-    <a class="bouton" href="/biens/creer">+ Ajouter un bien</a>
+    <a class="bouton ecriture" href="/biens/creer">+ Ajouter un bien</a>
 @endsection
 
 @section('contenu')
@@ -62,8 +62,8 @@
                             <td><span class="badge badge-{{ $couleur }}">{{ $libelle }}</span></td>
                             <td>{{ $bien['service'] ?? 'Non affecté' }}</td>
                             <td>
-                            <a class="lien" href="/biens/{{ $bien['id'] }}/modifier">Modifier</a> ·
-                            <a class="lien" href="/affectations/nouvelle?bien={{ $bien['id'] }}">Affecter</a>
+                            <a class="lien ecriture" href="/biens/{{ $bien['id'] }}/modifier">Modifier</a>
+                            <a class="lien ecriture" href="/affectations/nouvelle?bien={{ $bien['id'] }}">Affecter</a>
                             </td>
                         </tr>
                     @empty

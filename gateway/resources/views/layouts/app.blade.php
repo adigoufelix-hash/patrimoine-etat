@@ -1,3 +1,8 @@
+@php
+    $u = session('user');
+    $role = $u['role'] ?? null;
+    $libelles = ['admin' => 'Administrateur', 'gestionnaire' => 'Gestionnaire du patrimoine', 'responsable' => 'Responsable de service'];
+@endphp
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -6,7 +11,7 @@
     <title>@yield('titre') - Patrimoine de l’État</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
-<body>
+<body class="role-{{ $role }}">
 <div class="app">
     <aside class="sidebar">
         <div class="brand">
@@ -14,15 +19,23 @@
             <span>Gestion des biens publics</span>
         </div>
         <nav class="menu">
-            <a href="/" class="{{ request()->is('/') ? 'actif' : '' }}">Tableau de bord</a>
+            @if (in_array($role, ['admin', 'gestionnaire']))
+                <a href="/" class="{{ request()->is('/') ? 'actif' : '' }}">Tableau de bord</a>
+            @endif
             <a href="/biens" class="{{ request()->is('biens*') ? 'actif' : '' }}">Biens</a>
             <a href="/affectations" class="{{ request()->is('affectations*') ? 'actif' : '' }}">Affectations</a>
             <a href="/incidents" class="{{ request()->is('incidents*') ? 'actif' : '' }}">Incidents</a>
-            <a href="/utilisateurs" class="{{ request()->is('utilisateurs*') ? 'actif' : '' }}">Utilisateurs</a>
+            @if ($role === 'admin')
+                <a href="/utilisateurs" class="{{ request()->is('utilisateurs*') ? 'actif' : '' }}">Utilisateurs</a>
+            @endif
         </nav>
         <div class="pied">
-            <strong>Gestionnaire du patrimoine</strong>
-            <a href="#">Se déconnecter</a>
+            <strong>{{ $u['name'] ?? '' }}</strong>
+            <span>{{ $libelles[$role] ?? '' }}</span>
+            <form method="POST" action="/deconnexion">
+                @csrf
+                <button type="submit" class="deconnexion">Se déconnecter</button>
+            </form>
         </div>
     </aside>
 

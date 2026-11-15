@@ -105,3 +105,14 @@ input, select, textarea { padding:10px 12px; border:1px solid var(--bord); borde
   .stats { grid-template-columns:1fr 1fr; }
   .panneaux { grid-template-columns:1fr; }
 }
+
+/* Connexion, utilisateur connecté, droits */
+.page-connexion { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:16px; }
+.carte-connexion { width:100%; max-width:420px; background:#fff; border:1px solid var(--bord); border-radius:16px; padding:40px; display:flex; flex-direction:column; gap:20px; }
+.carte-connexion h1 { margin:0; font-size:22px; color:var(--bleu); }
+.carte-connexion .note { margin:0; }
+.carte-connexion .bouton { width:100%; }
+.pied span { display:block; font-size:12px; color:#c7d8ea; margin-bottom:6px; }
+.deconnexion { background:none; border:0; padding:0; color:#c7d8ea; font-size:12px; cursor:pointer; font-family:inherit; }
+.tableau td .lien + .lien { margin-left:10px; }
+.role-responsable .ecriture { display:none !important; }

@@ -76,6 +76,13 @@ class BienWebController extends Controller
         });
         $total = $liste->count();
 
+        // RG6 : un responsable de service ne voit que les biens de son service
+        $utilisateur = session('user');
+        if (($utilisateur['role'] ?? null) === 'responsable') {
+            $liste = $liste->filter(fn ($b) => $b['service'] !== null && $b['service'] === ($utilisateur['service_nom'] ?? null));
+            $total = $liste->count();
+        }
+
         $q = trim((string) $request->query('q'));
         if ($q !== '') {
             $liste = $liste->filter(fn ($b) => str_contains(

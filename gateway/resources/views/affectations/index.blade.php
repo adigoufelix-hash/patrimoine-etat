@@ -3,7 +3,7 @@
 @section('sous-titre', 'Historique des affectations de biens aux services')
 
 @section('actions')
-    <a class="bouton" href="/affectations/nouvelle">+ Nouvelle affectation</a>
+    <a class="bouton ecriture" href="/affectations/nouvelle">+ Nouvelle affectation</a>
 @endsection
 
 @section('contenu')
