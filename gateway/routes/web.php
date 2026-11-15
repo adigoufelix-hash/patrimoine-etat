@@ -4,6 +4,7 @@ use App\Http\Controllers\AffectationWebController;
 use App\Http\Controllers\AuthWebController;
 use App\Http\Controllers\BienWebController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\IncidentWebController;
 use App\Http\Middleware\EnsureConnecte;
 use App\Http\Middleware\EnsureRole;
 use Illuminate\Support\Facades\Route;
@@ -19,9 +20,11 @@ Route::middleware(EnsureConnecte::class)->group(function () {
     // Tout utilisateur connecté (le responsable ne voit que son service : RG6)
     Route::get('/biens', [BienWebController::class, 'index']);
     Route::get('/affectations', [AffectationWebController::class, 'index']);
-    Route::view('/incidents', 'pages.bientot', ['titre' => 'Incidents']);
+    Route::get('/incidents', [IncidentWebController::class, 'index']);
+    Route::get('/incidents/nouveau', [IncidentWebController::class, 'create']);
+    Route::post('/incidents', [IncidentWebController::class, 'store']);
 
-    // Administrateur et gestionnaire (RG5)
+    // Administrateur et gestionnaire (RG5, RG9)
     Route::middleware(EnsureRole::class . ':admin,gestionnaire')->group(function () {
         Route::get('/', [DashboardController::class, 'index']);
 
@@ -32,6 +35,8 @@ Route::middleware(EnsureConnecte::class)->group(function () {
 
         Route::get('/affectations/nouvelle', [AffectationWebController::class, 'create']);
         Route::post('/affectations', [AffectationWebController::class, 'store']);
+
+        Route::patch('/incidents/{id}/statut', [IncidentWebController::class, 'statut'])->whereNumber('id');
     });
 
     // Administrateur seul
