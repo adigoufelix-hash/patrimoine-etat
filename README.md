@@ -46,3 +46,13 @@ RG3 historique conservé · RG4 un bien réformé n'est plus affectable.
 - Analyse du besoin : `docs/Analyse_du_besoin_Gestion_Patrimoine.docx`
 - Diagrammes UML (cas d'utilisation, classes, séquence) : [docs/UML.md](docs/UML.md)
 - Maquettes Figma et prototype : [docs/MAQUETTES.md](docs/MAQUETTES.md)
+
+## Comptes de démonstration
+| Rôle | E-mail | Mot de passe |
+|---|---|---|
+| Administrateur | admin@patrimoine.tg | Patrimoine2026! |
+| Gestionnaire | gestionnaire@patrimoine.tg | Patrimoine2026! |
+| Responsable de service | responsable@patrimoine.tg | Patrimoine2026! |
+
+Tout visiteur peut créer un compte sur `/inscription` : il reçoit le rôle
+« responsable de service » (RG7). Seul un administrateur peut changer un rôle.

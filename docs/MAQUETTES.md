@@ -16,6 +16,7 @@ Maquettes de la plateforme de gestion du patrimoine de l'État.
 | 6 | Gestion des utilisateurs | bureau |
 | 7 | Liste des biens | mobile |
 | 8 | Tableau de bord | mobile |
+| 9 | Inscription | bureau |
 
 ## Prototype cliquable
 
