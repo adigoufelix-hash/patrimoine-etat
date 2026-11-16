@@ -2,7 +2,7 @@
 
 ## Diagramme de cas d'utilisation
 
-Trois acteurs, dix cas d'utilisation, colorés selon le micro-service qui les réalise.
+Quatre acteurs, treize cas d'utilisation, colorés selon le micro-service qui les réalise.
 
 ![Diagramme de cas d'utilisation](cas_utilisation.svg)
 
@@ -22,6 +22,7 @@ class Utilisateur {
   +string mot_de_passe
   +string role
   +int service_id
+  +bool actif
 }
 class Categorie {
   +int id
@@ -55,6 +56,7 @@ class Incident {
   +int id
   +int bien_id
   +int signale_par
+  +string type
   +string description
   +date date_signalement
   +string statut
@@ -93,5 +95,25 @@ sequenceDiagram
         DB-->>AF: Enregistrement confirmé
         AF-->>GW: 201 Created
         GW-->>G: Confirmation
+    end
+```
+
+## Diagramme de séquence : créer un compte
+
+```mermaid
+sequenceDiagram
+    actor V as Visiteur
+    participant GW as Gateway
+    participant AU as Service Auth
+
+    V->>GW: Remplit le formulaire d'inscription
+    GW->>AU: POST /api/register
+    Note over AU: Le rôle responsable est imposé par le serveur (RG7)
+    alt E-mail déjà utilisé ou données invalides
+        AU-->>GW: 422 Erreurs de validation
+        GW-->>V: Messages d'erreur
+    else Données valides
+        AU-->>GW: 201 avec jeton et profil
+        GW-->>V: Session ouverte, redirection vers les biens
     end
 ```
