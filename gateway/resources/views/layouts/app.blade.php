@@ -27,6 +27,8 @@
             <a href="/incidents" class="{{ request()->is('incidents*') ? 'actif' : '' }}">Incidents</a>
             @if ($role === 'admin')
                 <a href="/utilisateurs" class="{{ request()->is('utilisateurs*') ? 'actif' : '' }}">Utilisateurs</a>
+                <a href="/categories" class="{{ request()->is('categories*') ? 'actif' : '' }}">Catégories</a>
+                <a href="/services" class="{{ request()->is('services*') ? 'actif' : '' }}">Services</a>
             @endif
         </nav>
         <div class="pied">

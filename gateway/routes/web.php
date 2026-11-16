@@ -6,6 +6,7 @@ use App\Http\Controllers\BienWebController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IncidentWebController;
 use App\Http\Controllers\InventaireController;
+use App\Http\Controllers\ReferentielController;
 use App\Http\Controllers\UtilisateurWebController;
 use App\Http\Middleware\EnsureConnecte;
 use App\Http\Middleware\EnsureRole;
@@ -27,7 +28,7 @@ Route::middleware(EnsureConnecte::class)->group(function () {
     Route::get('/incidents/nouveau', [IncidentWebController::class, 'create']);
     Route::post('/incidents', [IncidentWebController::class, 'store']);
 
-    // Administrateur et gestionnaire (RG5, RG9)
+    // Administrateur et gestionnaire (RG5, RG9, RG10)
     Route::middleware(EnsureRole::class . ':admin,gestionnaire')->group(function () {
         Route::get('/', [DashboardController::class, 'index']);
 
@@ -45,12 +46,19 @@ Route::middleware(EnsureConnecte::class)->group(function () {
         Route::patch('/incidents/{id}/statut', [IncidentWebController::class, 'statut'])->whereNumber('id');
     });
 
-    // Administrateur seul (RG7, RG8)
+    // Administrateur seul (RG7, RG8, RG11, RG12)
     Route::middleware(EnsureRole::class . ':admin')->group(function () {
         Route::get('/utilisateurs', [UtilisateurWebController::class, 'index']);
         Route::get('/utilisateurs/creer', [UtilisateurWebController::class, 'create']);
         Route::post('/utilisateurs', [UtilisateurWebController::class, 'store']);
         Route::get('/utilisateurs/{id}/modifier', [UtilisateurWebController::class, 'edit'])->whereNumber('id');
         Route::patch('/utilisateurs/{id}', [UtilisateurWebController::class, 'update'])->whereNumber('id');
+
+        // Catégories et services : un seul contrôleur, le type vient de l'adresse
+        Route::get('/{type}', [ReferentielController::class, 'index']);
+        Route::get('/{type}/creer', [ReferentielController::class, 'create']);
+        Route::post('/{type}', [ReferentielController::class, 'store']);
+        Route::get('/{type}/{id}/modifier', [ReferentielController::class, 'edit'])->whereNumber('id');
+        Route::put('/{type}/{id}', [ReferentielController::class, 'update'])->whereNumber('id');
     });
 });
