@@ -56,3 +56,23 @@ RG3 historique conservé · RG4 un bien réformé n'est plus affectable.
 
 Tout visiteur peut créer un compte sur `/inscription` : il reçoit le rôle
 « responsable de service » (RG7). Seul un administrateur peut changer un rôle.
+## Normalisation de la base de données
+
+Chaque service possède sa propre base (auth, biens, affectations).
+
+- **1FN** : chaque colonne contient une valeur simple et chaque table a une clé primaire. Les affectations successives d'un bien sont des lignes de la table `affectations`, pas des colonnes `service1`, `service2`.
+- **2FN** : toutes les clés primaires sont simples (`id`), donc aucune dépendance partielle. Les informations d'une catégorie ou d'un service sont stockées une seule fois dans `categories` et `services`.
+- **3FN** : aucune colonne ne dépend d'une autre colonne non clé. Le nom du service n'est pas recopié dans `affectations` (seulement `service_id`), le nom de la catégorie n'est pas recopié dans `biens`.
+- **Micro-services** : `bien_id`, `signale_par` et `service_id` (dans `users`) sont des références logiques sans clé étrangère, car elles désignent des données d'une autre base. L'existence est vérifiée par appel d'API.
+- **Contraintes** : unicité du code d'inventaire, du nom de catégorie, du nom de service et de l'adresse e-mail.
+
+## Documentation
+
+| Document | Contenu |
+|---|---|
+| `docs/Analyse_du_besoin_Gestion_Patrimoine.docx` | Besoin, acteurs, règles de gestion RG1 à RG12 |
+| `docs/Fiche_technique_Gestion_Patrimoine.docx` | Architecture, données, API, sécurité |
+| `docs/Guide_utilisation_Gestion_Patrimoine.docx` | Utilisation par rôle |
+| `docs/Proposition_financiere_Gestion_Patrimoine.docx` | Estimation financière |
+| `docs/UML.md` | Diagrammes UML |
+| `docs/MAQUETTES.md` | Maquettes Figma |
