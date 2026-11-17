@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Créer un compte - Patrimoine de l’État</title>
+    <title>Créer un compte - PatriGest</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('images/favicon.svg') }}">
 </head>
 <body>
 <div class="page-connexion">
     <form method="POST" action="/inscription" class="carte-connexion">
         @csrf
+        <img src="{{ asset('images/logo_patrigest.svg') }}" alt="PatriGest" class="logo-connexion">
+        <img src="{{ asset('images/logo_patrigest.svg') }}" alt="PatriGest" class="logo-connexion">
         <h1>Créer un compte</h1>
         <p class="note">Les nouveaux comptes ont le rôle « responsable de service » : ils consultent les biens de leur service.</p>
 

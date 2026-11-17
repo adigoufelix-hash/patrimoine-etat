@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Connexion - Patrimoine de l’État</title>
+    <title>Connexion - PatriGest</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('images/favicon.svg') }}">
 </head>
 <body>
 <div class="page-connexion">
     <form method="POST" action="/connexion" class="carte-connexion">
         @csrf
-        <h1>Patrimoine de l’État</h1>
+        <img src="{{ asset('images/logo_patrigest.svg') }}" alt="PatriGest - Gestion du patrimoine de l’État" class="logo-connexion">
         <p class="note">Connectez-vous pour accéder à la plateforme</p>
 
         @if ($errors->any())

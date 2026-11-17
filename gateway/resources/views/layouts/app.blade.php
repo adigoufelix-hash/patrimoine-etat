@@ -8,15 +8,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('titre') - Patrimoine de l’État</title>
+    <title>@yield('titre') - PatriGest</title>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('images/favicon.svg') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body class="role-{{ $role }}">
 <div class="app">
     <aside class="sidebar">
         <div class="brand">
-            <strong>Patrimoine de l’État</strong>
-            <span>Gestion des biens publics</span>
+            <img src="{{ asset('images/logo_icone_clair.svg') }}" alt="Logo PatriGest" width="40" height="40">
+            <div>
+                <strong>PatriGest</strong>
+                <span>Gestion des biens publics</span>
+            </div>
         </div>
         <nav class="menu">
             @if (in_array($role, ['admin', 'gestionnaire']))
