@@ -1,4 +1,4 @@
-# Maquettes Figma
+# Maquettes Figma - PatriGest
 
 Maquettes de la plateforme de gestion du patrimoine de l'État.
 
@@ -8,6 +8,7 @@ Maquettes de la plateforme de gestion du patrimoine de l'État.
 
 | # | Écran | Version |
 |---|---|---|
+| 0 | Identité visuelle (logo, couleurs, typographie) | bureau |
 | 1 | Connexion | bureau |
 | 2 | Liste des biens | bureau |
 | 3 | Affecter un bien | bureau |

@@ -1,4 +1,8 @@
-# Gestion du patrimoine de l'État
+# PatriGest
+
+![Logo PatriGest](docs/logo_patrigest.svg)
+
+**Gestion du patrimoine de l'État**
 
 Plateforme web de recensement, d'affectation et de suivi des biens publics,
 construite en architecture micro-services (Laravel, PostgreSQL, Docker).
