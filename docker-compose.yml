@@ -64,6 +64,16 @@ services:
     ports:
       - "8004:8000"
 
+  service-notifications:
+    <<: *laravel
+    volumes:
+      - ./service-notifications:/var/www/html
+    environment:
+      <<: *db-env
+      DB_DATABASE: notifications
+    ports:
+      - "8005:8000"
+
   gateway:
     <<: *laravel
     volumes:
@@ -73,6 +83,7 @@ services:
       SERVICE_AUTH_URL: http://service-auth:8000
       SERVICE_AFFECTATIONS_URL: http://service-affectations:8000
       SERVICE_AUDIT_URL: http://service-audit:8000
+      SERVICE_NOTIFICATIONS_URL: http://service-notifications:8000
     ports:
       - "8000:8000"
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\BienWebController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IncidentWebController;
 use App\Http\Controllers\InventaireController;
+use App\Http\Controllers\NotificationWebController;
 use App\Http\Controllers\ReferentielController;
 use App\Http\Controllers\UtilisateurWebController;
 use App\Http\Middleware\EnsureConnecte;
@@ -31,6 +32,11 @@ Route::middleware(JournalAudit::class)->group(function () {
         Route::get('/incidents', [IncidentWebController::class, 'index']);
         Route::get('/incidents/nouveau', [IncidentWebController::class, 'create']);
         Route::post('/incidents', [IncidentWebController::class, 'store']);
+
+        // Notifications : chacun ne voit que les siennes (RG15)
+        Route::get('/notifications', [NotificationWebController::class, 'index']);
+        Route::post('/notifications/lues', [NotificationWebController::class, 'toutes']);
+        Route::post('/notifications/{id}/lue', [NotificationWebController::class, 'lire'])->whereNumber('id');
 
         // Administrateur et gestionnaire (RG5, RG9, RG10)
         Route::middleware(EnsureRole::class . ':admin,gestionnaire')->group(function () {

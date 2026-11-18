@@ -184,3 +184,16 @@ input, select, textarea { padding:10px 12px; border:1px solid var(--bord); borde
   .tableau-aud th, .tableau-aud td { display: table-cell !important; }
   .tableau-aud td { min-width: 110px; }
 }
+
+/* Notifications */
+.pastille { background: #d64545; color: #fff; border-radius: 999px; padding: 1px 7px; font-size: 11px; font-weight: 600; margin-left: 6px; }
+.notification { margin: 0; border-top: 1px solid var(--bord); }
+.notification:first-child { border-top: 0; }
+.notification button { width: 100%; text-align: left; background: none; border: 0; padding: 16px 20px; display: flex; flex-direction: column; gap: 4px; cursor: pointer; font-family: inherit; color: var(--texte); }
+.notification button:hover { background: #f7f9fb; }
+.notification .titre { font-weight: 500; display: flex; align-items: center; gap: 8px; }
+.notification.non-lue .titre { font-weight: 700; }
+.notification.non-lue { background: #f3f7fc; }
+.notification .texte { font-size: 13px; color: var(--gris); }
+.notification .note { margin: 0; font-size: 12px; }
+.point { width: 8px; height: 8px; border-radius: 50%; background: var(--bleu); display: inline-block; }

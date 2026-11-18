@@ -140,6 +140,16 @@ class IncidentWebController extends Controller
             return back()->withInput()->with('erreur', 'Le service Affectations a répondu avec une erreur.');
         }
 
+        $libelleType = ['panne' => 'Panne', 'perte' => 'Perte', 'degradation' => 'Dégradation'][$donnees['type']] ?? $donnees['type'];
+        foreach (['gestionnaire', 'admin'] as $roleCible) {
+            \App\Services\Notifier::envoyer([
+                'titre' => 'Nouvel incident',
+                'message' => $libelleType . ' signalée par ' . session('user.name') . ' (bien n°' . $donnees['bien_id'] . ').',
+                'lien' => '/incidents',
+                'role_cible' => $roleCible,
+            ]);
+        }
+
         return redirect('/incidents')->with('succes', 'Incident signalé.');
     }
 
@@ -156,6 +166,17 @@ class IncidentWebController extends Controller
 
         if ($r->failed()) {
             return back()->with('erreur', 'Impossible de modifier le statut.');
+        }
+
+        $incident = $r->json();
+        if (! empty($incident['signale_par']) && $incident['signale_par'] != session('user.id')) {
+            $libelles = ['ouvert' => 'ouvert', 'en_cours' => 'en cours', 'resolu' => 'résolu'];
+            \App\Services\Notifier::envoyer([
+                'titre' => 'Incident mis à jour',
+                'message' => 'Votre incident n°' . $id . ' est maintenant : ' . $libelles[$donnees['statut']] . '.',
+                'lien' => '/incidents',
+                'utilisateur_id' => $incident['signale_par'],
+            ]);
         }
 
         return back()->with('succes', 'Statut mis à jour.');

@@ -127,6 +127,15 @@ class UtilisateurWebController extends Controller
             return back()->withInput()->with('erreur', 'Modification impossible avec votre rôle.');
         }
 
+        if ($id != session('user.id')) {
+            \App\Services\Notifier::envoyer([
+                'titre' => 'Votre compte a été modifié',
+                'message' => 'Un administrateur a mis à jour votre rôle, votre service ou l’activation de votre compte.',
+                'lien' => '/biens',
+                'utilisateur_id' => $id,
+            ]);
+        }
+
         return redirect('/utilisateurs')->with('succes', 'Utilisateur modifié.');
     }
 }
