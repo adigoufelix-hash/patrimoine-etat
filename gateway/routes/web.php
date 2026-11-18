@@ -7,6 +7,7 @@ use App\Http\Controllers\BienWebController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IncidentWebController;
 use App\Http\Controllers\InventaireController;
+use App\Http\Controllers\MaintenanceWebController;
 use App\Http\Controllers\NotificationWebController;
 use App\Http\Controllers\ReferentielController;
 use App\Http\Controllers\UtilisateurWebController;
@@ -38,7 +39,7 @@ Route::middleware(JournalAudit::class)->group(function () {
         Route::post('/notifications/lues', [NotificationWebController::class, 'toutes']);
         Route::post('/notifications/{id}/lue', [NotificationWebController::class, 'lire'])->whereNumber('id');
 
-        // Administrateur et gestionnaire (RG5, RG9, RG10)
+        // Administrateur et gestionnaire (RG5, RG9, RG10, RG14)
         Route::middleware(EnsureRole::class . ':admin,gestionnaire')->group(function () {
             Route::get('/', [DashboardController::class, 'index']);
 
@@ -54,6 +55,11 @@ Route::middleware(JournalAudit::class)->group(function () {
             Route::post('/affectations', [AffectationWebController::class, 'store']);
 
             Route::patch('/incidents/{id}/statut', [IncidentWebController::class, 'statut'])->whereNumber('id');
+
+            Route::get('/maintenances', [MaintenanceWebController::class, 'index']);
+            Route::get('/maintenances/nouvelle', [MaintenanceWebController::class, 'create']);
+            Route::post('/maintenances', [MaintenanceWebController::class, 'store']);
+            Route::patch('/maintenances/{id}/statut', [MaintenanceWebController::class, 'statut'])->whereNumber('id');
         });
 
         // Administrateur seul (RG7, RG8, RG11, RG12, RG13)

@@ -1,0 +1,46 @@
+<?php
+
+return [
+    'required' => 'Le champ :attribute est obligatoire.',
+    'string' => 'Le champ :attribute doit être un texte.',
+    'email' => 'Le champ :attribute doit être une adresse e-mail valide.',
+    'unique' => 'La valeur du champ :attribute est déjà utilisée.',
+    'exists' => 'La valeur choisie pour le champ :attribute est invalide.',
+    'integer' => 'Le champ :attribute doit être un nombre entier.',
+    'numeric' => 'Le champ :attribute doit être un nombre.',
+    'date' => 'Le champ :attribute n’est pas une date valide.',
+    'in' => 'La valeur choisie pour le champ :attribute est invalide.',
+    'boolean' => 'Le champ :attribute doit être vrai ou faux.',
+    'confirmed' => 'La confirmation du champ :attribute ne correspond pas.',
+    'max' => [
+        'numeric' => 'Le champ :attribute ne doit pas dépasser :max.',
+        'string' => 'Le champ :attribute ne doit pas dépasser :max caractères.',
+    ],
+    'min' => [
+        'numeric' => 'Le champ :attribute doit être au moins égal à :min.',
+        'string' => 'Le champ :attribute doit contenir au moins :min caractères.',
+    ],
+
+    'attributes' => [
+        'name' => 'nom',
+        'email' => 'adresse e-mail',
+        'password' => 'mot de passe',
+        'password_confirmation' => 'confirmation du mot de passe',
+        'code_inventaire' => 'code d’inventaire',
+        'designation' => 'désignation',
+        'description' => 'description',
+        'date_acquisition' => 'date d’acquisition',
+        'valeur' => 'valeur',
+        'etat' => 'état',
+        'categorie_id' => 'catégorie',
+        'bien_id' => 'bien',
+        'service_id' => 'service',
+        'motif' => 'motif',
+        'type' => 'type de maintenance',
+        'statut' => 'statut',
+        'date_prevue' => 'date prévue',
+        'date_constat' => 'date du constat',
+        'role' => 'rôle',
+        'actif' => 'statut du compte',
+    ],
+];

@@ -197,3 +197,12 @@ input, select, textarea { padding:10px 12px; border:1px solid var(--bord); borde
 .notification .texte { font-size: 13px; color: var(--gris); }
 .notification .note { margin: 0; font-size: 12px; }
 .point { width: 8px; height: 8px; border-radius: 50%; background: var(--bleu); display: inline-block; }
+
+/* Maintenances */
+.tableau-mnt td { vertical-align: top; }
+.en-ligne { display: inline; margin: 0 10px 0 0; }
+.lien-bouton { background: none; border: 0; padding: 0; color: var(--bleu); font-weight: 500; font-size: 14px; cursor: pointer; font-family: inherit; }
+@media (max-width: 768px) {
+  .tableau-mnt th, .tableau-mnt td { display: table-cell !important; }
+  .tableau-mnt td { min-width: 110px; }
+}

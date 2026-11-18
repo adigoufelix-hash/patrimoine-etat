@@ -28,6 +28,8 @@ class JournalAudit
         'PUT {type}/{id}' => 'Modification (catégorie ou service)',
         'GET inventaire/export' => 'Export de l’inventaire (Excel)',
         'GET inventaire/imprimer' => 'Impression de l’inventaire (PDF)',
+        'POST maintenances' => 'Planification d’une maintenance',
+        'PATCH maintenances/{id}/statut' => 'Clôture d’une maintenance',
     ];
 
     // Seuls ces champs sont conservés : jamais de mot de passe ni de jeton

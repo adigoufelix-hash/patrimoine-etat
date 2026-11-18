@@ -6,5 +6,6 @@ return [
     'auth'          => env('SERVICE_AUTH_URL'),
     'audit'         => env('SERVICE_AUDIT_URL'),
     'notifications' => env('SERVICE_NOTIFICATIONS_URL'),
+    'maintenance'   => env('SERVICE_MAINTENANCE_URL'),
     'cle'           => env('SERVICE_KEY'),
 ];
