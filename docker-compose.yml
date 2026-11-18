@@ -5,7 +5,6 @@ x-laravel: &laravel
   depends_on:
     - db
 
-    
 x-db-env: &db-env
   DB_CONNECTION: pgsql
   DB_HOST: db
@@ -55,6 +54,16 @@ services:
     ports:
       - "8003:8000"
 
+  service-audit:
+    <<: *laravel
+    volumes:
+      - ./service-audit:/var/www/html
+    environment:
+      <<: *db-env
+      DB_DATABASE: audit
+    ports:
+      - "8004:8000"
+
   gateway:
     <<: *laravel
     volumes:
@@ -63,6 +72,7 @@ services:
       SERVICE_BIENS_URL: http://service-biens:8000
       SERVICE_AUTH_URL: http://service-auth:8000
       SERVICE_AFFECTATIONS_URL: http://service-affectations:8000
+      SERVICE_AUDIT_URL: http://service-audit:8000
     ports:
       - "8000:8000"
 

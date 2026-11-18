@@ -33,6 +33,7 @@
                 <a href="/utilisateurs" class="{{ request()->is('utilisateurs*') ? 'actif' : '' }}">Utilisateurs</a>
                 <a href="/categories" class="{{ request()->is('categories*') ? 'actif' : '' }}">Catégories</a>
                 <a href="/services" class="{{ request()->is('services*') ? 'actif' : '' }}">Services</a>
+                <a href="/audit" class="{{ request()->is('audit*') ? 'actif' : '' }}">Journal d’audit</a>
             @endif
         </nav>
         <div class="pied">
