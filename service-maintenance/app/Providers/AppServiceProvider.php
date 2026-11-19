@@ -14,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        // Chaque appel vers un autre service porte la clé de service
+        // Chaque appel vers un autre service (ici le service Biens) porte la clé de service
         Http::globalRequestMiddleware(
             fn ($request) => $request->withHeader('X-Service-Key', (string) config('microservices.cle'))
         );

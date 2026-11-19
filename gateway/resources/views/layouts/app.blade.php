@@ -28,6 +28,9 @@
             @endif
             <a href="/biens" class="{{ request()->is('biens*') ? 'actif' : '' }}">Biens</a>
             <a href="/affectations" class="{{ request()->is('affectations*') ? 'actif' : '' }}">Affectations</a>
+            @if (in_array($role, ['admin', 'gestionnaire']))
+                <a href="/maintenances" class="{{ request()->is('maintenances*') ? 'actif' : '' }}">Maintenances</a>
+            @endif
             <a href="/incidents" class="{{ request()->is('incidents*') ? 'actif' : '' }}">Incidents</a>
             <a href="/notifications" class="{{ request()->is('notifications*') ? 'actif' : '' }}">Notifications @if (($nbNotifs ?? 0) > 0)<span class="pastille">{{ $nbNotifs }}</span>@endif</a>
             @if ($role === 'admin')
