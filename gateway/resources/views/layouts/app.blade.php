@@ -16,7 +16,7 @@
 <div class="app">
     <aside class="sidebar">
         <div class="brand">
-            <img src="{{ asset('images/logo_icone_clair.svg') }}" alt="Logo PatriGest" width="40" height="40">
+            <img src="{{ asset('images/logo_icone_clair.svg') }}" alt="Logo PatriGest" width="46" height="46">
             <div>
                 <strong>PatriGest</strong>
                 <span>Gestion des biens publics</span>
@@ -28,9 +28,6 @@
             @endif
             <a href="/biens" class="{{ request()->is('biens*') ? 'actif' : '' }}">Biens</a>
             <a href="/affectations" class="{{ request()->is('affectations*') ? 'actif' : '' }}">Affectations</a>
-            @if (in_array($role, ['admin', 'gestionnaire']))
-                <a href="/maintenances" class="{{ request()->is('maintenances*') ? 'actif' : '' }}">Maintenances</a>
-            @endif
             <a href="/incidents" class="{{ request()->is('incidents*') ? 'actif' : '' }}">Incidents</a>
             <a href="/notifications" class="{{ request()->is('notifications*') ? 'actif' : '' }}">Notifications @if (($nbNotifs ?? 0) > 0)<span class="pastille">{{ $nbNotifs }}</span>@endif</a>
             @if ($role === 'admin')
@@ -47,19 +44,34 @@
                 @csrf
                 <button type="submit" class="deconnexion">Se déconnecter</button>
             </form>
+            <div class="devise-pied">Travail · Liberté · Patrie</div>
         </div>
     </aside>
 
-    <main class="contenu">
-        <header class="entete">
-            <div>
-                <h1>@yield('titre')</h1>
-                <p>@yield('sous-titre')</p>
+    <div class="principal">
+        <div class="bandeau">
+            <div class="republique">
+                @if (file_exists(public_path('images/armoiries.png')))
+                    <img class="armoiries" src="{{ asset('images/armoiries.png') }}" alt="Armoiries de la République Togolaise">
+                @endif
+                <img src="{{ asset('images/flag_togo.svg') }}" alt="Drapeau du Togo">
+                <span>République Togolaise</span>
             </div>
-            <div>@yield('actions')</div>
-        </header>
-        @yield('contenu')
-    </main>
+            <div class="devise">Travail · Liberté · Patrie</div>
+        </div>
+        <div class="bande-drapeau"></div>
+
+        <main class="contenu">
+            <header class="entete">
+                <div>
+                    <h1>@yield('titre')</h1>
+                    <p>@yield('sous-titre')</p>
+                </div>
+                <div>@yield('actions')</div>
+            </header>
+            @yield('contenu')
+        </main>
+    </div>
 </div>
 </body>
 </html>
