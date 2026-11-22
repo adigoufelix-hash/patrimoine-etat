@@ -2,7 +2,7 @@
 
 ## Diagramme de cas d'utilisation
 
-Quatre acteurs, treize cas d'utilisation, colorés selon le micro-service qui les réalise.
+Quatre acteurs, seize cas d'utilisation, colorés selon le micro-service qui les réalise.
 
 ![Diagramme de cas d'utilisation](cas_utilisation.svg)
 
@@ -61,11 +61,45 @@ class Incident {
   +date date_signalement
   +string statut
 }
+class Maintenance {
+  +int id
+  +int bien_id
+  +string type
+  +date date_prevue
+  +date date_realisee
+  +string statut
+  +date alerte_le
+}
+class Evenement {
+  +int id
+  +int utilisateur_id
+  +string action
+  +string objet
+  +json detail
+  +string adresse_ip
+  +datetime created_at
+}
+class Notification {
+  +int id
+  +string titre
+  +string message
+  +string role_cible
+  +int utilisateur_id
+}
+class Lecture {
+  +int notification_id
+  +int utilisateur_id
+  +datetime lue_at
+}
 Categorie "1" --> "0..*" Bien : classe
 Service "1" --> "0..*" Affectation : recoit
+Notification "1" --> "0..*" Lecture : lue par
 Bien "1" ..> "0..*" Affectation : est affecte
 Bien "1" ..> "0..*" Incident : subit
+Bien "1" ..> "0..*" Maintenance : fait objet
 Utilisateur "1" ..> "0..*" Incident : signale
+Utilisateur "1" ..> "0..*" Evenement : realise
+Utilisateur "1" ..> "0..*" Notification : recoit
 Service "1" ..> "0..*" Utilisateur : emploie
 ```
 
@@ -116,4 +150,50 @@ sequenceDiagram
         AU-->>GW: 201 avec jeton et profil
         GW-->>V: Session ouverte, redirection vers les biens
     end
+```
+
+## Diagramme de séquence : signaler un incident (journal et notifications)
+
+Le journal et les notifications sont envoyés après la réponse, avec un délai
+d'attente de 2 secondes : leur panne ne bloque jamais l'utilisateur.
+
+```mermaid
+sequenceDiagram
+    actor R as Responsable
+    participant GW as Gateway
+    participant AF as Service Affectations
+    participant B as Service Biens
+    participant AU as Service Audit
+    participant NO as Service Notifications
+
+    R->>GW: Envoie le signalement
+    GW->>B: GET /api/biens (le bien est-il dans mon service ? RG6)
+    B-->>GW: Biens
+    GW->>AF: POST /api/incidents
+    AF->>B: GET /api/biens/id
+    B-->>AF: Bien existant
+    AF-->>GW: 201 Incident créé
+    GW-->>R: Confirmation
+    Note over GW,NO: Après la réponse, sans attente
+    GW->>AU: POST /api/evenements (RG13)
+    GW->>NO: POST /api/notifications (gestionnaires et administrateurs)
+```
+
+## Diagramme de séquence : alertes de maintenance
+
+```mermaid
+sequenceDiagram
+    actor G as Gestionnaire
+    participant GW as Gateway
+    participant MA as Service Maintenance
+    participant NO as Service Notifications
+
+    G->>GW: Ouvre la page Maintenances
+    GW->>MA: POST /api/maintenances/alertes
+    Note over MA: En retard ou prévues sous 3 jours, une seule fois par jour (RG16)
+    MA-->>GW: Maintenances à signaler (liste vide si déjà signalées)
+    GW->>NO: POST /api/notifications (gestionnaires et administrateurs)
+    GW->>MA: GET /api/maintenances
+    MA-->>GW: Liste des maintenances
+    GW-->>G: Page Maintenances
 ```
