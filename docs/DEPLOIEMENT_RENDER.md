@@ -38,21 +38,12 @@ git add -A && git commit -m "Préparation déploiement Render" && git push
 2. Nom : `patrimoine-db`, plan **Free**, région au choix (idéalement la même que les services web).
 3. Noter le **Internal Database URL** (format `postgresql://USER:PASSWORD@HOST:5432/DB`) — c'est ce qui sera utilisé par les services.
 
-### Créer les 6 bases logiques
+### Les 6 bases logiques sont créées automatiquement
 
-Render ne crée qu'une base. Ouvrir un terminal et se connecter avec la commande `psql`
-fournie dans le dashboard, puis créer les bases manquantes :
-
-```sql
-CREATE DATABASE biens;
-CREATE DATABASE auth;
-CREATE DATABASE affectations;
-CREATE DATABASE audit;
-CREATE DATABASE notifications;
-CREATE DATABASE maintenance;
-```
-
-(La base créée par Render peut servir de l'une des six, ou servir de base « principale » non utilisée.)
+Pas besoin de créer les bases à la main : au démarrage, chaque service vérifie
+si sa base existe et l'exécute `CREATE DATABASE` si nécessaire (voir
+`docker-entrypoint.sh`). Il suffit donc de noter les informations de connexion
+ci-dessous et de les reporter dans les variables d'environnement.
 
 Relever dans le dashboard : **host interne**, **port**, **utilisateur**, **mot de passe**.
 
