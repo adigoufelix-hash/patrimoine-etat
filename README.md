@@ -59,7 +59,9 @@ docker compose exec service-notifications php artisan migrate
 docker compose exec service-maintenance php artisan migrate
 ```
 
-Ouvrir ensuite http://localhost:8000. La **première requête** après le démarrage peut être lente (plusieurs minutes sous Windows) : patienter.
+Ouvrir ensuite http://localhost:8000. La **première requête** après le démarrage peut être lente (plusieurs minutes sous Windows) : patienter. Les requêtes suivantes sont rapides grâce à OPcache et aux workers de `php artisan serve`.
+
+> Après une modification du code PHP, penser à `docker compose restart` : OPcache est configuré sans revalidation des timestamps pour rester rapide sur les volumes Windows.
 
 Les valeurs de ce README (`cle-locale-de-developpement`, mot de passe `secret`) sont des valeurs d'essai pour le développement local. Elles ne doivent pas être utilisées en production.
 
@@ -134,5 +136,6 @@ Chaque service possède sa propre base (auth, biens, affectations, audit, notifi
 | `docs/Fiche_technique_Gestion_Patrimoine.docx` | architecture, données, API, sécurité, identité visuelle |
 | `docs/Guide_utilisation_Gestion_Patrimoine.docx` | utilisation par rôle |
 | `docs/Proposition_financiere_Gestion_Patrimoine.docx` | estimation financière |
+| `docs/DEPLOIEMENT_RENDER.md` | hébergement gratuit sur Render (7 services + PostgreSQL) |
 | `docs/UML.md` | cas d'utilisation, classes, séquences |
 | `docs/MAQUETTES.md` | maquettes Figma et prototype |

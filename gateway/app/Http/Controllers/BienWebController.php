@@ -11,7 +11,7 @@ class BienWebController extends Controller
 {
     private function http(): PendingRequest
     {
-        return Http::acceptJson()->timeout(120);
+        return Http::acceptJson()->timeout(10);
     }
 
     private function urlBiens(): string
