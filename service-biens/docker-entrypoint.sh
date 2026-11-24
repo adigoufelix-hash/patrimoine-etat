@@ -7,9 +7,20 @@ if [ -z "$APP_KEY" ]; then
   php artisan key:generate --force
 fi
 
-# Migrations : uniquement pour les services qui ont une base (DB_HOST renseigné).
-# On réessaie tant que la base n'est pas joignable (démarrage simultané des services).
+# Base de données : on crée la base du service si elle n'existe pas encore
+# (plusieurs services peuvent démarrer en même temps : les erreurs « existe déjà » sont ignorées)
 if [ -n "$DB_HOST" ]; then
+  php -r '
+    $h = getenv("DB_HOST"); $port = getenv("DB_PORT") ?: "5432";
+    $u = getenv("DB_USERNAME"); $w = getenv("DB_PASSWORD"); $db = getenv("DB_DATABASE");
+    try {
+      $pdo = new PDO("pgsql:host=$h;port=$port;dbname=postgres", $u, $w);
+      $existe = $pdo->query("SELECT 1 FROM pg_database WHERE datname = " . $pdo->quote($db))->fetchColumn();
+      if (! $existe) { $pdo->exec("CREATE DATABASE \"$db\""); echo "Base $db créée.\n"; }
+    } catch (Throwable $e) { /* on laisse migrate --force gerer les erreurs */ }
+  ' || true
+
+  # Migrations : on réessaie tant que la base n'est pas joignable (démarrage simultané des services)
   essais=0
   until php artisan migrate --force; do
     essais=$((essais + 1))
