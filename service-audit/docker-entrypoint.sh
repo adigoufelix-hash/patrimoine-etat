@@ -23,8 +23,16 @@ if [ -n "$DB_HOST" ]; then
     } catch (Throwable $e) { /* migrate gere les erreurs */ }
   ' || true
 
+  # MIGRATE_FRESH=true repart de zero (a n'utiliser qu'au tout premier deploiement)
+  if [ "$MIGRATE_FRESH" = "true" ]; then
+    CMD_MIGRATE="migrate:fresh --force"
+  else
+    CMD_MIGRATE="migrate --force"
+  fi
+
+  # On reessaie tant que la base n'est pas joignable (demarrage simultane des services)
   essais=0
-  until php artisan migrate --force; do
+  until php artisan $CMD_MIGRATE; do
     essais=$((essais + 1))
     if [ "$essais" -ge 30 ]; then
       echo "Echec des migrations apres 30 tentatives."
